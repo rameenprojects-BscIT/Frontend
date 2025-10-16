@@ -1,0 +1,170 @@
+<html>
+    <head>
+        <title>Vue.js After School App </title>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script> <!--cdn link-->
+        <style>
+            .lessons-container {
+                display: flex;
+                gap: 20px; /* Space between the cards */
+                padding: 20px;
+                }
+            .lesson {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                align-items: center;
+                width: 280px;
+                height: 150px;
+                padding: 5px;
+                border: 1px solid purple;
+                border-radius: 10px;
+                box-sizing: border-box;
+                font-family: Arial, sans-serif;
+                }
+             .lesson-image {
+                width: 60px;
+                height: 60px;
+                border: 3px solid black;
+                }
+            
+            .lesson-text {
+                flex-direction: column;
+                flex-grow: 1;
+            }
+
+            .lesson-text p {
+                margin: 5px 0;
+                font-size: 14px;
+            }
+            /*keeps the inromation of the course (image and text) keep them aligned next to each other*/
+            .lesson-details {
+                display: flex;
+                flex: 1; /* Takes up available vertical space */
+                width: 100%;
+                }
+
+            .add-button {
+                margin-top: auto;       
+                align-self: center;       
+                padding: 8px 16px;
+                background-color: purple;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                font-size: 14px;
+                cursor: pointer;
+                }
+        </style>
+    </head>
+    <body>
+        <div id="app">
+            <header>
+                <h1 v-text="sitename"></h1>
+            </header>
+            <main>
+                <div class="lessons-container">
+                    <div class="lesson">
+                        <div class="lesson-details">
+                            <figure>
+                                <img class="lesson-image" v-bind:src="lesson01.image">
+                            </figure>
+                            <div class="lesson-text">
+                                <p>Subject: {{lesson01.subject}}</p> <!--mustache or keep the v-text ?? -->
+                                <p>Location: {{lesson01.location}}</p>
+                                <p>Price: {{lesson01.price}} </p> <!--mustache syntax-->
+                                <p>Spaces: {{lesson01.spaces}}</p>
+                            </div>
+                        </div>
+                        <button class="add-button">Add to Cart</button> 
+                    </div>
+                     <div class="lesson">
+                        <div class="lesson-details">
+                            <figure>
+                                <img class="lesson-image" v-bind:src="lesson01.image">
+                            </figure>
+                            <div class="lesson-text">
+                                <p>Subject: {{lesson02.subject}}</p> <!--mustache or keep the v-text ?? -->
+                                <p>Location: {{lesson02.location}}</p>
+                                <p>Price: {{lesson02.price}} </p> <!--mustache syntax-->
+                                <p>Spaces: {{lesson02.spaces}}</p>
+                            </div>
+                        </div>
+                        <button class="add-button">Add to Cart</button> 
+                    </div>
+                     <div class="lesson">
+                        <div class="lesson-details">
+                            <figure>
+                                <img class="lesson-image" v-bind:src="lesson01.image">
+                            </figure>
+                            <div class="lesson-text">
+                                <p>Subject: {{lesson03.subject}}</p> <!--mustache or keep the v-text ?? -->
+                                <p>Location: {{lesson03.location}}</p>
+                                <p>Price: {{lesson03.price}} </p> <!--mustache syntax-->
+                                <p>Spaces: {{lesson03.spaces}}</p>
+                            </div>
+                        </div>
+                        <button class="add-button">Add to Cart</button> 
+                    </div>
+                     <div class="lesson">
+                        <div class="lesson-details">
+                            <figure>
+                                <img class="lesson-image" v-bind:src="lesson01.image">
+                            </figure>
+                            <div class="lesson-text">
+                                <p>Subject: {{lesson04.subject}}</p> <!--mustache or keep the v-text ?? -->
+                                <p>Location: {{lesson04.location}}</p>
+                                <p>Price: {{lesson04.price}} </p> <!--mustache syntax-->
+                                <p>Spaces: {{lesson04.spaces}}</p>
+                            </div>
+                        </div>
+                        <button class="add-button">Add to Cart</button> 
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <script type="text/javascript">
+            let webstore = new Vue({
+                el:"#app",
+                data: {
+                    sitename: "After School App",
+                    lesson01:{
+                        id: 1001,
+                        subject: "Math",
+                        location: "London",
+                        price: 100,
+                        image: "maths.png",
+                        spaces: 5
+                    },
+                    lesson02:{
+                        id: 1002,
+                        subject: "English",
+                        location: "London",
+                        price: 100,
+                        image: "maths.png",
+                        spaces: 5
+                    },
+                    lesson03:{
+                        id: 1003,
+                        subject: "Science",
+                        location: "London",
+                        price: 100,
+                        image: "maths.png",
+                        spaces: 5
+                    },
+                      lesson04:{
+                        id: 1004,
+                        subject: "Arabic",
+                        location: "London",
+                        price: 100,
+                        image: "maths.png",
+                        spaces: 5
+                    }
+         
+                }
+
+            });
+
+        </script>
+    </body>
+</html>
