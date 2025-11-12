@@ -172,13 +172,14 @@
                                 </figure>
                             </div>
                             
-                            <button class="add-button"> Add to cart</button>
-                            <span v-if='lesson.spaces === cartCount(lesson.id)'>All out!</span>
-                            <span v-else-if="lesson.spaces - cartCount(lesson.id) < 5">
+                            <button class="add-button" v-on:click="addToCart(lesson)" :disabled="!canAddToCart(lesson)"> Add to cart</button>
+
+                            <!--availability responses-->
+                            <span v-if="lesson.spaces === cartCount(lesson.id)">Out of Stock!</span>
+                            <span v-else-if="lesson.spaces - cartCount(lesson.id) < 4">
                                 Only {{lesson.spaces - cartCount(lesson.id)}} left!
                             </span>
                             <span v-else>Buy now!</span>
-                            <button disabled ="disabled" v-else>Out of Stock</button>
                         </div>
                     </div>
                 </div>
