@@ -295,17 +295,7 @@
                         alert('Order Submitted!');
                     }
                 },
-                computed:{ // the Computed Property object
-                    cartItemCount: function() { // the property name
-                    // its value is calculated when it is called
-                        return this.cart.length || "";
-                    },
-                    canAddToCart: function(){
-                        return this.lesson.spaces>this.cartItemCount;
-                    },
-                    itemsLeft() {
-                        return this.lesson.spaces - this.cartItemCount;
-                    },
+                computed:{ 
                     sortedLessons() {
                        let sorted = this.lessons.slice();
 
