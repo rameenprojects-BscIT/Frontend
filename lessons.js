@@ -41,7 +41,7 @@ let lessons = [
     },
      {
         "id": 1006,
-        "subject": "Drawing and Animation",
+        "subject": "Drawing & Animation",
         "location": "Cardiff",
         "price": 70.00,
         "image": "images/Les06.png",
