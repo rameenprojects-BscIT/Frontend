@@ -129,29 +129,29 @@
                         <div class="sortArea">
                             <h3>Sort by:</h3>
                             <p>
-                                <input type="radio" id="subjectBtn" value="Subject" v-model="sort.method"/>
+                                <input type="radio" id="subjectBtn" value="subject" v-model="sortLesson"/>
                                 <label for="subjectBtn">Subject</label>
                             </p>
                             <p>
-                                <input type="radio" id="locationBtn" value="Location" v-model="sort.method"/>
+                                <input type="radio" id="locationBtn" value="location" v-model="sortLesson"/>
                                 <label for="locationBtn">Location</label>
                             </p>
                             <p>
-                                <input type="radio" id="priceBtn" value="Price" v-model="sort.method"/>
+                                <input type="radio" id="priceBtn" value="price" v-model="sortLesson"/>
                                 <label for="priceBtn">Price</label>
                             </p>
                             <p>
-                                <input type="radio" id="spacesBtn" value="Spaces" v-model="sort.method"/>
+                                <input type="radio" id="spacesBtn" value="spaces" v-model="sortLesson"/>
                                 <label for="spacesBtn">Spaces</label>
                             </p>
                             <span></span>
-                            <h3>--------------------</h3>
+                            <h3>Order by:</h3>
                             <p>
-                                <input type="radio" id="ascBtn" value="Asc" v-model="sort.method"/>
+                                <input type="radio" id="ascBtn" value="asc" v-model="sortOrder"/>
                                 <label for="ascBtn">Ascending</label>
                             </p>
                             <p>
-                                <input type="radio" id="descBtn" value="Asc" v-model="sort.method"/>
+                                <input type="radio" id="descBtn" value="desc" v-model="sortOrder"/>
                                 <label for="descBtn">Descending</label>
                             </p>
 
@@ -251,9 +251,8 @@
                     lessons: lessons, // vue property: array created in Js file
                     cart:[],
                     showLesson:true,
-                    sort:{
-                        sortby:'Subject'
-                    },
+                    sortLesson: 'price',
+                    sortOrder: 'asc',
                     order:{
                         firstName:'',
                         lastName:'',
@@ -307,16 +306,24 @@
                         return this.lesson.spaces - this.cartItemCount;
                     },
                     sortedLessons() {
-                        // the comparison function that defines the order
-                        function compare(a, b) {
-                        if (a.subject > b.subject) 
-                            return 1;
-                        if (a.subject < b.subject) 
-                            return -1;
+                       let sorted = this.lessons.slice();
+
+                       sorted.sort((a, b) => {
+                        let valA = a[this.sortLesson];
+                        let valB = b[this.sortLesson];
+
+                        if(typeof valA === 'string')
+                            valA = valA.toLowerCase();
+                        if(typeof valB === 'string')
+                            valB = valB.toLowerCase();
+
+                        if (valA < valB) 
+                            return this.sortOrder === 'asc' ? -1 : 1;
+                        if (valA > valB)
+                            return this.sortOrder === 'desc' ? -1 : 1;
                         return 0;
-                        }
-                        // sort the 'lessons' array and return it
-                        return this.lessons.sort(compare);
+                       });
+                        return sorted;
                     }
 
                 }
