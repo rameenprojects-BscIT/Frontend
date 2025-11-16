@@ -1,7 +1,7 @@
 <html>
     <head>
         <title>After School App</title>
-        <!--<link href="https://cdn.jsdelivr.net/npm/font-awesome@6.7.2/css/font-awesome.min.css" rel="stylesheet">-->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" rel="stylesheet">
         <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
         <script src="lessons.js"></script>
         <style>
@@ -100,7 +100,12 @@
                 background-color: darkmagenta;
             }
 
-            .checkout-btn {
+            button:disabled {
+                background-color: gray;
+                color: white;
+                cursor: not-allowed;
+            }
+            .cart-btn {
                 background-color: purple;
                 color: white;
                 padding: 8px 14px;
@@ -116,9 +121,8 @@
         <div id="app">
             <header>
                 <h1 v-text="sitename"></h1>
-                <button class="checkout-btn" v-on:click="showCheckout">
-                    {{cartItemCount}}
-                    <i class="fa-solid fa-cart-plus"></i>Checkout
+                <button class="cart-btn" v-on:click="showCart" :disabled="cartItemCount == 0">
+                    <i class="fa-solid fa-cart-plus"></i> View Cart ({{cartItemCount}})
                 </button>
             </header>
 
@@ -172,11 +176,13 @@
                                 </figure>
                             </div>
                             
-                            <button class="add-button" v-on:click="addToCart(lesson)" :disabled="!canAddToCart(lesson)"> Add to cart</button>
+                            <button class="add-button" v-on:click="addToCart(lesson)" :disabled="!canAddToCart(lesson)"> 
+                                Add to cart
+                            </button>
 
-                            <!--availability responses-->
+                            <!-- availability responses -->
                             <span v-if="lesson.spaces === cartCount(lesson.id)">Out of Stock!</span>
-                            <span v-else-if="lesson.spaces - cartCount(lesson.id) < 4">
+                            <span v-else-if="lesson.spaces - cartCount(lesson.id) < 5">
                                 Only {{lesson.spaces - cartCount(lesson.id)}} left!
                             </span>
                             <span v-else>Buy now!</span>
@@ -184,61 +190,9 @@
                     </div>
                 </div>
 
-                <!--CHECKOUT-->
+                
                  <div v-else>
-                    <h2>Checkout</h2>
-                    <p>
-                        <strong>First Name: </strong>
-                        <input v-model="order.firstName"/>
-                    </p>
-                    <p>
-                        <strong>Last Name: </strong>
-                        <input v-model="order.lastName"/>
-                    </p>
-                     <p>
-                        <strong>Address: </strong>
-                        <input v-model="order.address"/>
-                    </p>
-                     <p>
-                        <strong>City: </strong>
-                        <input v-model="order.city"/>
-                    </p>
-                    <p>
-                        <strong>State: </strong>
-                        <select v-model="order.state">
-                            <option disabled value="">State</option>
-                            <option v-for="(state, key) in states" v-bind:value="state">{{key}}</option>
-                        </select>
-                    </p>
-                     <p>
-                        <strong>Zip Postal Code: </strong>
-                        <input v-model="order.zip"/>
-                    </p>
-                    <p>
-                        <input type="checkbox" id="gift" value="true" v-model="order.gift"
-                        v-bind:true-value="order.sendGift"
-                        v-bind:false-value="order.dontSendGift">
-                        <label for="gift">Ship As Gift?</label>
-                    </p>
-                    <p>
-                        <input type="radio" id="home" value="Home" v-model="order.method"/>
-                        <label for="home">Home</label>
-                    </p>
-                    <p>
-                        <input type="radio" id="business" value="Business" v-model="order.method"/>
-                        <label for="business">Business</label>
-                    </p>
-                    
-                    <h2>Order Information</h2>
-                    <p>First Name: {{order.firstName}}</p>
-                    <p>Last Name: {{order.lastName}}</p>
-                    <p>Address: {{order.address}}</p>
-                    <p>City: {{order.city}}</p>
-                    <p>Zip: {{order.zip}}</p>
-                    <p>State: {{order.state}}</p>
-                    <p>Gift: {{order.gift}}</p>
-                    <p>Method: {{order.method}}</p>
-                    <button v-on:click="submitForm">Place Order</button>
+                    <h2>Cart Page</h2>
                  </div>
                  
             </main>
@@ -254,23 +208,6 @@
                     showLesson:true,
                     sortLesson: 'price',
                     sortOrder: 'asc',
-                    order:{
-                        firstName:'',
-                        lastName:'',
-                        address:'',
-                        city:'',
-                        zip:'',
-                        method:'Home',
-                        gift: false, // not needed but sets the default value as false
-                        sendGift: 'Send as a gift',
-                        dontSendGift: 'do not send as a gift'
-                    },
-                    states: {
-                        AL: 'Alabama',
-                        AR: 'Arizona',
-                        CA: 'California',
-                        NV: 'Nevada'
-                    }
                 },
                 methods:{
                     addToCart(lesson){
@@ -288,14 +225,14 @@
                         }
                         return count;
                     },
-                    showCheckout(){
+                    showCart(){
                         this.showLesson=this.showLesson ? false:true;
-                    },
-                    submitForm(){
-                        alert('Order Submitted!');
                     }
                 },
-                computed:{ 
+                computed:{
+                    cartItemCount: function() {
+                        return this.cart.length || "";
+                    },
                     sortedLessons() {
                        let sorted = this.lessons.slice();
 
