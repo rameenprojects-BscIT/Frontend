@@ -6,22 +6,25 @@ let lessons = [
         "price": 50.00,
         "image": "images/Les01.png",
         "spaces": 5,
+        "rating": 3,
     },
-     {
+    {
         "id": 1002,
         "subject": "English",
         "location": "Oxford",
         "price": 100.00,
         "image": "images/Les02.png",
         "spaces": 5,
+        "rating": 2,
     },
-     {
+    {
         "id": 1003,
         "subject": "Science Explorers",
         "location": "Cambridge",
         "price": 50.00,
         "image": "images/Les03.png",
         "spaces": 5,
+        "rating": 5,
     },
      {
         "id": 1004,
@@ -30,6 +33,7 @@ let lessons = [
         "price": 50.00,
         "image": "images/Les04.png",
         "spaces": 5,
+        "rating": 4,
     },
      {
         "id": 1005,
@@ -38,6 +42,7 @@ let lessons = [
         "price": 100.00,
         "image": "images/Les05.png",
         "spaces": 5,
+        "rating": 3,
     },
      {
         "id": 1006,
@@ -46,6 +51,7 @@ let lessons = [
         "price": 70.00,
         "image": "images/Les06.png",
         "spaces": 5,
+        "rating": 3,
     },
      {
         "id": 1007,
@@ -54,6 +60,7 @@ let lessons = [
         "price": 20.00,
         "image": "images/Les07.png",
         "spaces": 5,
+        "rating": 2,
     },
      {
         "id": 1008,
@@ -62,6 +69,7 @@ let lessons = [
         "price": 100.00,
         "image": "images/Les08.png",
         "spaces": 5,
+        "rating": 1,
     },
      {
         "id": 1009,
@@ -70,6 +78,7 @@ let lessons = [
         "price": 150.00,
         "image": "images/Les09.png",
         "spaces": 5,
+        "rating": 4,
     },
      {
         "id": 1010,
@@ -78,6 +87,7 @@ let lessons = [
         "price": 35.00,
         "image": "images/Les10.png",
         "spaces": 5,
+        "rating": 2,
     }
 ];
 

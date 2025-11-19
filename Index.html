@@ -158,6 +158,10 @@
                                 <input type="radio" id="spacesBtn" value="spaces" v-model="sortLesson"/>
                                 <label for="spacesBtn">Spaces</label>
                             </p>
+                            <p>
+                                <input type="radio" id="ratingBtn" value="rating" v-model="sortLesson"/>
+                                <label for="ratingBtn">Rating</label>
+                            </p>
                             <span></span>
                             <h3>Order by:</h3>
                             <p>
@@ -196,6 +200,10 @@
                                 Only {{lesson.spaces - cartCount(lesson.id)}} left!
                             </span>
                             <span  class="box" v-else>Buy now!</span>
+                            <div>
+                                <span v-for='n in lesson.rating'><i class="fa-solid fa-star"></i></span>
+                                <span v-for='n in 5 - lesson.rating'><i class="fa-regular fa-star"></i></span>
+                            </div>
                         </div>
                     </div>
                 </div>
