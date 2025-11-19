@@ -131,8 +131,11 @@
         <div id="app">
             <header>
                 <h1 v-text="sitename"></h1>
-                <button class="cart-btn" v-on:click="showCart" :disabled="cartItemCount == 0">
-                    <i class="fa-solid fa-cart-plus"></i> View Cart ({{cartItemCount}})
+                <button class="cart-btn" v-on:click="showCart" :disabled="cartItemCount == 0 && showLesson">
+                    <span v-if="showLesson">
+                        <i class="fa-solid fa-cart-plus"></i> View Cart ({{cartItemCount}})
+                    </span>
+                    <span v-else><i class="fa-solid fa-house"></i> Back to Lessons</span>
                 </button>
             </header>
 
@@ -207,7 +210,6 @@
                         </div>
                     </div>
                 </div>
-
                 
                 <div v-else>
                     <h2>Cart Page</h2>
