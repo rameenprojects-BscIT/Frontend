@@ -248,6 +248,7 @@
                     </div>
                     <div class="checkout-area">
                         <h2>Checkout</h2>
+                        <p><strong>Total Price:</strong> {{ cartTotal() }}</p>
                         <p>
                             <strong>First Name: </strong>
                             <input type="text" v-model="order.firstName" placeholder="letters only"/>
@@ -272,7 +273,7 @@
                             <label for="gift">Ship As Gift?</label>
                         </p>
                         <p id="validationMsg" style="color: red">{{validationMsg}}</p>
-                        <button v-on:click="submitForm" :disabled="!isFormValid">Checkout now</button>
+                        <button v-on:click="checkout" :disabled="!isFormValid">Checkout now</button>
                     </div>
                 </div>
                  
@@ -294,11 +295,10 @@
                         lastName:'',
                         phoneNumber:'',
                         email:'',
-                        gift: false, // not needed but sets the default value as false
-                        sendGift: 'Send as a gift',
-                        dontSendGift: 'do not send as a gift'
+                        gift: 'not required', // not needed but sets the default value as false
+                        sendGift: 'Send as a gift'
                     },
-                    validationMsg: ''
+                    validationMsg: '',
                 },
                 methods:{
                     addToCart(lesson){
@@ -332,6 +332,87 @@
                     },
                      submitForm(){
                         alert('Your Order is placed successfully!');
+                    },
+                    cartTotal(){
+                        let total = 0;
+                        for (let i = 0; i < this.cart.length; i++){
+                            let id = this.cart[i];
+
+                            //find the lesson with matching id
+                            for (let j = 0; j < this.lessons.length; j++){
+                                if(this.lessons[j].id === id){
+                                    total += this.lessons[j].price;
+                                }
+                            }
+
+                        }
+                        return total;
+                    },
+                    checkout() {
+                        const fullName = this.order.firstName + " " + this.order.lastName;
+
+                        let lessonIds = [];
+                        for (let i = 0; i < this.cart.length; i++){
+                            lessonIds.push(this.cart[i])
+                        }
+
+                        let lessonSpaces = {};
+                        for (let i = 0; i < this.cart.length; i++){
+                            let id = this.cart[i];
+                            if(!lessonSpaces[id]) {
+                                lessonSpaces[id] = 1;
+                            } else {
+                                lessonSpaces[id]++;
+                            }
+                        }
+
+                        let subjects = [];
+                        for (let i = 0; i < this.cart.length; i++){
+                            let id = this.cart[i];
+                            
+                            for (let j = 0; j < this.lessons.length; j++) {
+                                if(this.lessons[j].id === id){
+                                    subjects.push(this.lessons[j].subject);
+                                }
+                            }
+                        }
+
+                        let total = this.cartTotal();
+
+                        let orderData = {
+                            fullName: fullName,
+                            email: this.order.email,
+                            phoneNumber: this.order.phoneNumber,
+                            gift: this.order.gift,
+
+                            lessonIds: lessonIds,
+                            spaces: lessonSpaces,
+                            subjects: subjects,
+
+                            total: total,
+                        };
+
+                        fetch('https://backend-ivag.onrender.com/collection/orders', {
+                            method: 'POST', 
+                            headers: {
+                                'Content-Type': 'application/json', 
+                            },
+                            body: JSON.stringify(orderData)
+                        })
+                        .then(response => response.json())
+                        .then(result => {
+                            alert("order placed successfully");
+                            this.cart = [];
+                            this.order = {
+                                firstName:'',
+                                lastName:'',
+                                phoneNumber:'',
+                                email:'',
+                                gift:''
+                            };
+                            this.showLesson = true;
+                        });
+
                     }
                     
                 },
