@@ -3,7 +3,7 @@
         <title>After School App</title>
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" rel="stylesheet">
         <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
-        <script src="lessons.js"></script>
+        <!-- <script src="lessons.js"></script> -->
         <style>
             body {
             font-family: Arial, sans-serif;
@@ -284,7 +284,7 @@
                 el:'#app',
                 data: {
                     sitename: 'After School App',
-                    lessons: lessons, // vue property: array created in Js file
+                    lessons: [], // vue property: array created in Js file
                     cart:[],
                     showLesson:true,
                     sortLesson: 'price',
@@ -398,7 +398,21 @@
                         );
                     }
 
+                },
+                created() {
+                    fetch('http://localhost:3000/collection/lessons', {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        this.lessons = data; 
+                    })
+                    .catch(err => console.log(err));
                 }
+               
             }
         );
         </script>
