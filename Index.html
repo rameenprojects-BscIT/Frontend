@@ -348,6 +348,40 @@
                         }
                         return total;
                     },
+                    
+                    loadLessons(){
+                        fetch('https://backend-ivag.onrender.com/collection/lessons', {
+                            method: 'GET',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            this.lessons = JSON.parse(JSON.stringify(data)); 
+                        })
+                        .catch(err => console.log(err));
+                    },
+
+                    updateSpacesDB(){
+                        this.lessons.forEach(lesson => {
+                            const qty = this.cartCount(lesson.id);  // how many times purchased
+                                if (qty > 0) {
+                                    const updatedSpaces = lesson.spaces - qty;
+
+                                    fetch(`https://backend-ivag.onrender.com/collection/lessons/${lesson._id}`, {
+                                        method: 'PUT',
+                                        headers: { "Content-Type": "application/json" },
+                                        body: JSON.stringify({ spaces: updatedSpaces })
+                                    })
+                                    .then(response => response.json())
+                                    .then(data => console.log("Updated:", data))
+                                }
+                        });
+                        // re-fetching the lessons to show the updated spaces
+                        this.loadLessons();   
+                    },
+
                     checkout() {
                         const fullName = this.order.firstName + " " + this.order.lastName;
 
@@ -402,7 +436,7 @@
                         .then(response => response.json())
                         .then(result => {
                             alert("order placed successfully");
-                            this.cart = [];
+                            this.updateSpacesDB();
                             this.order = {
                                 firstName:'',
                                 lastName:'',
@@ -410,7 +444,8 @@
                                 email:'',
                                 gift:''
                             };
-                            this.showLesson = true;
+                            this.cart = [];
+                            this.showLesson = true;  
                         });
 
                     }
@@ -480,18 +515,9 @@
                     }
 
                 },
+                // intial load of the lessons
                 created() {
-                    fetch('https://backend-ivag.onrender.com/collection/lessons', {
-                        method: 'GET',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        }
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        this.lessons = data; 
-                    })
-                    .catch(err => console.log(err));
+                    this.loadLessons();
                 }
                
             }
