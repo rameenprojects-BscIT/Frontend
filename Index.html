@@ -213,7 +213,7 @@
                     <div class="holdSort">
                         <div class="sortArea">
                             <p style="display:inline-block"><i class="fas fa-search"></i></p>
-                            <input class="search-container" type="text" v-model="searchQuery" placeholder="Search...">
+                            <input class="search-container" type="text" v-model="searchQuery" v-on:keyup="searchLesson"  placeholder="Search...">
                             <h3>Sort by:</h3>
                             <div class="sort-text">
                                 <p>
@@ -517,6 +517,21 @@
                             this.showLesson = true;  
                         });
 
+                    },
+                    searchLesson(){
+                        let query = this.searchQuery.trim();
+
+                        if (query.length === 0) {
+                            this.loadLessons();
+                            return;
+                        }
+                        fetch(`https://backend-ivag.onrender.com/search?q=${query}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            this.lessons = data;
+                        })
+                        .catch(error => console.log(error));
+                        
                     }
                     
                 },
