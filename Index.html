@@ -202,7 +202,7 @@
                                     <p>Spaces: {{ spaces(lesson) }}</p>
                                 </div>
                                 <figure class="img-hold">
-                                    <img class="lesson-image" v-bind:src="lesson.image">
+                                    <img class="lesson-image" v-bind:src="'https://backend-ivag.onrender.com'+'/'+lesson.image" alt="lesson image">
                                 </figure>
                             </div>
                             
@@ -239,7 +239,7 @@
                                             <p>Spaces: {{item.spaces}}</p>
                                         </div>
                                         <figure class="img-hold">
-                                            <img class="lesson-image" v-bind:src="item.image">
+                                            <img class="lesson-image" v-bind:src="'https://backend-ivag.onrender.com'+'/'+item.image" alt="item image">
                                         </figure>
                                     </div>
                                 <button class="add-button" v-on:click="removeFromCart(item.id)">Remove</button>
@@ -365,7 +365,6 @@
 
                     updateSpacesDB(){
                         this.lessons.forEach(lesson => {
-                            // number of times a lesson is purchased
                             const qty = this.cartCount(lesson.id);  
                                 if (qty > 0) {
                                     const updatedSpaces = lesson.spaces - qty;
