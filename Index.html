@@ -3,7 +3,7 @@
         <title>After School App</title>
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" rel="stylesheet">
         <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
-        <!-- <script src="lessons.js"></script> -->
+
         <style>
             body {
             font-family: Arial, sans-serif;
@@ -15,11 +15,11 @@
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                padding: 20px;
+                padding: 5px;
+                margin-right: 300px;
             }
 
-            h1 {
-                font-size: 28px;
+            header h1,h4 {
                 margin: 0;
             }
 
@@ -31,33 +31,22 @@
                 width: 100%;
             }
 
-            .sortArea{
-                display: inline-block;
-                height:200px;
-
-            }
             .holdLessons{
                 display:flex;
                 flex-wrap: wrap;
-                gap: 20px;
+                gap: 15px;
                 width: 75%;
                 height: 100%;
             }
-            .holdSort{
-                display:flex;
-                background-color: lavender;
-                width:20%;
-                height: 100%;
-                margin: 100px 0;
-                float: right;
-            }
+           
             .lesson {
                 display: inline-flex;
                 flex-direction: column;
                 width: 320px;
-                height: 180px;
+                height: 185px;
                 padding: 8px 10px;
-                border: 1px solid purple;
+                border: 1px solid #800020;
+                background-color: #800020;
                 border-radius: 5px;
                 box-sizing: border-box;
                 font-family: Arial, sans-serif;
@@ -80,29 +69,57 @@
                 border-radius: 6px; 
             }
             .lesson-text {
+                font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
                 flex-direction: column;
                 flex-grow: 1;
+            }
+            .lesson-text h3{
+                margin: 0;
+                color:#e1eef9;
             }
 
             .lesson-text p {
                 margin: 5px 0;
                 font-size: 14px;
+                color:#ffffff;
             }
-
-            .add-button {
+             .sortArea{
+                display: inline-block;
+                height:100%;
+                background-color: #2d2d2d;
+                color: aliceblue;
+                padding: 10px;
+                border-radius: 10px;
+            }
+            .holdSort{
+                display:flex;
+                width:20%;
+                height: 100%;
+                margin: 40px 0;
+                float: right;
+            }
+            .sort-text{
+                color: #d5e8f8;
+            }
+            input[type="radio"] {
+                accent-color: #800020;
+            }
+            .add-button, .checkout-btn{
                 margin-top: auto;
+                font-family: 'Helvetica', sans-serif;
+                font-weight: bold;
                 align-self: center;
-                padding: 8px 16px;
-                background-color: purple;
+                padding: 8px 8px;
+                background-color: #333333;
                 color: white;
                 border: none;
-                border-radius: 4px;
+                border-radius: 3px;
                 font-size: 14px;
                 cursor: pointer;
             }
 
             .add-button:hover {
-                background-color: darkmagenta;
+                background-color: #9d5c5cc6;
             }
 
             button:disabled {
@@ -111,8 +128,9 @@
                 cursor: not-allowed;
             }
             .cart-btn {
-                background-color: purple;
+                background-color: #9d5c5cc6;
                 color: white;
+                width: 600px;
                 padding: 8px 14px;
                 border-radius: 4px;
                 border: none;
@@ -125,17 +143,51 @@
             }
             .cart-page{
                 display: flex;
-                flex-direction: column; 
-                gap: 20px; 
-                /* padding: 10px; */
+                padding: 10px;
+                gap: 5px;
             }
-            #cart-area, .checkout-area {
-                flex-direction: column; 
-                background-color: purple;
+
+            .cart-area{
+                width: 100%;
+                height: 500px;
+                overflow: auto;
+                background-color: #320000;
                 color: white;
-                padding: 20px;
+                padding: 10px;
                 border-radius: 8px;
+
+            } 
+            .cart-area h2{
+                text-align:center;
             }
+            .checkout-area {
+                width: 40%;
+                height: 400px;
+                background-color: #823c3c;
+                color: white;
+                padding: 30px;
+                border-radius: 8px;
+                justify-content: center;
+                display: flex;
+            }
+            .checkout-area input[type=text]{
+                width: 300px;
+            }
+           
+            .search-container {
+                display: inline-block;
+                font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
+                width: 200px;
+                padding-top: 100px;
+                padding: 10px;
+                font-size: 16px;
+                border: 2px solid white;
+                border-radius: 20px;
+                outline: none;
+                background-color: transparent;
+                color: white;
+            }
+            
         </style>
        
     </head>
@@ -143,7 +195,10 @@
     <body>
         <div id="app">
             <header>
-                <h1 v-text="sitename"></h1>
+                <div>
+                    <h1 v-text="sitename"></h1>
+                    <h4 v-text="slogan"></h4>
+                </div>
                 <button class="cart-btn" v-on:click="showCart" :disabled="cartItemCount == 0 && showLesson">
                     <span v-if="showLesson">
                         <i class="fa-solid fa-cart-plus"></i> View Cart ({{cartItemCount}})
@@ -157,37 +212,43 @@
                 <div v-if="showLesson" class="lessons-container">
                     <div class="holdSort">
                         <div class="sortArea">
+                            <p style="display:inline-block"><i class="fas fa-search"></i></p>
+                            <input class="search-container" type="text" v-model="searchQuery" placeholder="Search...">
                             <h3>Sort by:</h3>
-                            <p>
-                                <input type="radio" id="subjectBtn" value="subject" v-model="sortLesson"/>
-                                <label for="subjectBtn">Subject</label>
-                            </p>
-                            <p>
-                                <input type="radio" id="locationBtn" value="location" v-model="sortLesson"/>
-                                <label for="locationBtn">Location</label>
-                            </p>
-                            <p>
-                                <input type="radio" id="priceBtn" value="price" v-model="sortLesson"/>
-                                <label for="priceBtn">Price</label>
-                            </p>
-                            <p>
-                                <input type="radio" id="spacesBtn" value="spaces" v-model="sortLesson"/>
-                                <label for="spacesBtn">Spaces</label>
-                            </p>
-                            <p>
-                                <input type="radio" id="ratingBtn" value="rating" v-model="sortLesson"/>
-                                <label for="ratingBtn">Rating</label>
-                            </p>
+                            <div class="sort-text">
+                                <p>
+                                    <input type="radio" id="subjectBtn" value="subject" v-model="sortLesson"/>
+                                    <label for="subjectBtn">Subject</label>
+                                </p>
+                                <p>
+                                    <input type="radio" id="locationBtn" value="location" v-model="sortLesson"/>
+                                    <label for="locationBtn">Location</label>
+                                </p>
+                                <p>
+                                    <input type="radio" id="priceBtn" value="price" v-model="sortLesson"/>
+                                    <label for="priceBtn">Price</label>
+                                </p>
+                                <p>
+                                    <input type="radio" id="spacesBtn" value="spaces" v-model="sortLesson"/>
+                                    <label for="spacesBtn">Spaces</label>
+                                </p>
+                                <p>
+                                    <input type="radio" id="ratingBtn" value="rating" v-model="sortLesson"/>
+                                    <label for="ratingBtn">Rating</label>
+                                </p>
+                            </div>
                             <span></span>
                             <h3>Order by:</h3>
-                            <p>
-                                <input type="radio" id="ascBtn" value="asc" v-model="sortOrder"/>
-                                <label for="ascBtn">Ascending</label>
-                            </p>
-                            <p>
-                                <input type="radio" id="descBtn" value="desc" v-model="sortOrder"/>
-                                <label for="descBtn">Descending</label>
-                            </p>
+                            <div class="sort-text">
+                                <p>
+                                    <input type="radio" id="ascBtn" value="asc" v-model="sortOrder"/>
+                                    <label for="ascBtn">Ascending</label>
+                                </p>
+                                <p>
+                                    <input type="radio" id="descBtn" value="desc" v-model="sortOrder"/>
+                                    <label for="descBtn">Descending</label>
+                                </p>
+                            </div>
 
                         </div>
                     </div>
@@ -196,7 +257,7 @@
                             <div class="lesson-details">
                             <!--lesson info-->
                                 <div class="lesson-text">
-                                    <p>Subject: {{lesson.subject}} </p>
+                                    <h3>{{lesson.subject}} </h3>
                                     <p>Location: {{lesson.location}} </p>
                                     <p>Price: {{lesson.price}} </p>
                                     <p>Spaces: {{ spaces(lesson) }}</p>
@@ -207,7 +268,7 @@
                             </div>
                             
                             <button class="add-button" v-on:click="addToCart(lesson)" :disabled="!canAddToCart(lesson)"> 
-                                Add to cart
+                                Add to cart <i class="fa-solid fa-plus"></i>
                             </button>
 
                             <!-- availability responses -->
@@ -216,7 +277,7 @@
                                 Only {{lesson.spaces - cartCount(lesson.id)}} left!
                             </span>
                             <span  class="box" v-else>Buy now!</span>
-                            <div>
+                            <div style="color:#ffff6d">
                                 <span v-for='n in lesson.rating'><i class="fa-solid fa-star"></i></span>
                                 <span v-for='n in 5 - lesson.rating'><i class="fa-regular fa-star"></i></span>
                             </div>
@@ -225,55 +286,61 @@
                 </div>
                 
                 <div class="cart-page" v-else>
-                    <div id="cart-area" class="lessons-container">
-                        <div><h2>your cart</h2></div>
+                    <div class="cart-area" >
+                        <div><h2>Your Cart</h2></div>
                         <br>
                         <div class="holdLessons">
                             <div class="lesson" v-for="(item, index) in cartDetails" :key="index">
                                 <div class="lesson-details">
                                     <!--lesson info-->
-                                        <div class="lesson-text">
-                                            <p>Subject: {{item.subject}} </p>
-                                            <p>Location: {{item.location}} </p>
-                                            <p>Price: {{item.price}} </p>
-                                            <p>Spaces: {{item.spaces}}</p>
-                                        </div>
-                                        <figure class="img-hold">
-                                            <img class="lesson-image" v-bind:src="'https://backend-ivag.onrender.com'+'/'+item.image" alt="item image">
-                                        </figure>
+                                    <div class="lesson-text">
+                                        <h3>{{item.subject}} </h3>
+                                        <p>Location: {{item.location}} </p>
+                                        <p>Price: {{item.price}} </p>
+                                        <p>Spaces: {{ item.spaces }}</p>
                                     </div>
+                                    <figure class="img-hold">
+                                        <img class="lesson-image" v-bind:src="'https://backend-ivag.onrender.com'+'/'+item.image" alt="lesson image">
+                                    </figure>
+                                </div>
                                 <button class="add-button" v-on:click="removeFromCart(item.id)">Remove</button>
+                                <div style="color:#ffff6d">
+                                <span v-for='n in item.rating'><i class="fa-solid fa-star"></i></span>
+                                <span v-for='n in 5 - item.rating'><i class="fa-regular fa-star"></i></span>
+                            </div>
                             </div>
                         </div>
                     </div>
                     <div class="checkout-area">
-                        <h2>Checkout</h2>
-                        <p><strong>Total Price:</strong> {{ cartTotal() }}</p>
-                        <p>
-                            <strong>First Name: </strong>
-                            <input type="text" v-model="order.firstName" placeholder="letters only"/>
-                        </p>
-                        <p>
-                            <strong>Last Name: </strong>
-                            <input type="text" v-model="order.lastName"placeholder="letters only" />
-                        </p>
-                        <p>
-                            <strong>Phone: </strong>
-                            <input type="text" v-model="order.phoneNumber" placeholder="numbers only"/>
-                        </p>
-                        <p>
-                            <strong>Email: </strong>
-                            <input type="text" v-model="order.email" placeholder="hi123@gmail.com"/>
-                        </p>
+                        <div class="checkout-box">
+                            <h2>Checkout</h2>
+                            <p><strong>Total Price:</strong> {{ cartTotal() }}</p>
+                            <p>
+                                <strong>First Name:</strong>
+                                <input type="text" v-model="order.firstName" placeholder="letters only"/>
+                            </p>
+                            <p>
+                                <strong>Last Name: </strong>
+                                <input type="text" v-model="order.lastName"placeholder="letters only" />
+                            </p>
+                            <p>
+                                <strong>Phone Number: </strong>
+                                <input type="text" v-model="order.phoneNumber" placeholder="numbers only"/>
+                            </p>
+                            <p>
+                                <strong>Email Address: </strong>
+                                <input type="text" v-model="order.email" placeholder="hi123@gmail.com"/>
+                            </p>
 
-                        <p>
-                            <input type="checkbox" id="gift" value="true" v-model="order.gift"
-                                v-bind:true-value="order.sendGift"
-                                v-bind:false-value="order.dontSendGift">
-                            <label for="gift">Ship As Gift?</label>
-                        </p>
-                        <p id="validationMsg" style="color: red">{{validationMsg}}</p>
-                        <button v-on:click="checkout" :disabled="!isFormValid">Checkout now</button>
+                            <p>
+                                <input type="checkbox" id="gift" value="true" v-model="order.gift"
+                                    v-bind:true-value="order.sendGift"
+                                    v-bind:false-value="order.dontSendGift">
+                                <label for="gift">Ship As Gift?</label>
+                            </p>
+                            <p id="validationMsg" style="color: red">{{validationMsg}}</p>
+                            <button class="checkout-btn" v-on:click="checkout" :disabled="!isFormValid">Checkout now</button>
+                        </div>
                     </div>
                 </div>
                  
@@ -284,7 +351,8 @@
             let webstore = new Vue({
                 el:'#app',
                 data: {
-                    sitename: 'After School App',
+                    sitename: 'RamiNet',
+                    slogan: '<< after school app >>',
                     lessons: [], // vue property: array created in Js file
                     cart:[],
                     showLesson:true,
@@ -299,6 +367,7 @@
                         sendGift: 'Send as a gift'
                     },
                     validationMsg: '',
+                    searchQuery: ''
                 },
                 methods:{
                     addToCart(lesson){
