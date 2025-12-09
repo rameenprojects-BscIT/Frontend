@@ -525,7 +525,7 @@
                             this.loadLessons();
                             return;
                         }
-                        fetch(`https://backend-ivag.onrender.com/search?q=${query}`)
+                        fetch(`https://backend-ivag.onrender.com/search/lessons?q=${query}`)
                         .then(response => response.json())
                         .then(data => {
                             this.lessons = data;
