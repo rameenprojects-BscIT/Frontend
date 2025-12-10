@@ -399,9 +399,6 @@
                             this.cart.splice(index, 1); 
                         }
                     },
-                     submitForm(){
-                        alert('Your Order is placed successfully!');
-                    },
                     cartTotal(){
                         let total = 0;
                         for (let i = 0; i < this.cart.length; i++){
@@ -504,7 +501,7 @@
                         })
                         .then(response => response.json())
                         .then(result => {
-                            alert("order placed successfully");
+                            alert(`Thank you ${fullName}! Your order is placed successfully`);
                             this.updateSpacesDB();
                             this.order = {
                                 firstName:'',
@@ -514,7 +511,7 @@
                                 gift:''
                             };
                             this.cart = [];
-                            this.showLesson = true;  
+                            this.showLesson = true;
                         });
 
                     },
